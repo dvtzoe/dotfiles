@@ -1,0 +1,1 @@
+kitty -e "nvim --server /tmp/godot.pipe --remote-send \"<esc>:n $1<CR>:call cursor({line},{col})<CR>\""

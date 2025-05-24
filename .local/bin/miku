@@ -1,0 +1,139 @@
+#!/usr/bin/env bash
+
+if [ -z "$MIKU_DIR" ]; then
+    export MIKU_DIR="$HOME/miku"
+    echo "MIKU_DIR not set, using default: $MIKU_DIR"
+fi
+
+mkdir -p "$MIKU_DIR/playlists" "$MIKU_DIR/songs"
+
+if [ ! -f "$MIKU_DIR/config.ini" ]; then
+    echo "Warning: Config file not found at $MIKU_DIR/config.ini"
+    echo "Using dvtzoe's playlists"
+    
+    mv $HOME/.config/nixos/modules/miku/config.ini $MIKU_DIR
+    exit 1
+fi
+
+get_playlist_url() {
+    local playlist_name="$1"
+    local url
+    
+    url=$(grep -E "^$playlist_name=" "$MIKU_DIR/config.ini" | cut -d= -f2-)
+    
+    if [ -z "$url" ]; then
+        echo "Error: Playlist '$playlist_name' not found in config file."
+        exit 1
+    fi
+    
+    echo "$url"
+}
+
+list_playlists() {
+    echo "Available playlists:"
+    grep -E "^[a-zA-Z0-9_-]+=" "$MIKU_DIR/config.ini" | cut -d= -f1
+}
+
+download_playlist() {
+    local playlist_name="$1"
+    local playlist_url=$(get_playlist_url "$playlist_name")
+    
+    echo "Downloading playlist: $playlist_name from $playlist_url"
+    
+    read -p "Proceed with download? [Y/n] " response
+    response=${response:-Y}
+    
+    if [[ ! $response =~ ^[Yy]$ ]]; then
+        echo "Download cancelled."
+        return
+    fi
+    
+    [ -f "$MIKU_DIR/playlists/$playlist_name.m3u" ] && > "$MIKU_DIR/playlists/$playlist_name.m3u"
+    
+    yt-dlp \
+        --download-archive "$MIKU_DIR/archive.txt" \
+        --no-overwrites \
+        --extract-audio \
+        --audio-format best \
+        --audio-quality 0 \
+        --output "$MIKU_DIR/songs/%(id)s.%(ext)s" \
+        --add-metadata \
+        --embed-thumbnail \
+        --parse-metadata "%(uploader)s:%(meta_artist)s" \
+        --parse-metadata "%(title)s:%(meta_title)s" \
+        --exec "echo %(filepath)s >> $MIKU_DIR/playlists/$playlist_name.m3u" \
+        "$playlist_url"
+    
+    echo "Playlist download complete: $playlist_name"
+}
+
+play_playlist() {
+    local playlist_name="$1"
+    local playlist_file="$MIKU_DIR/playlists/$playlist_name.m3u"
+    
+    if [ ! -f "$playlist_file" ]; then
+        echo "Error: Playlist file not found at $playlist_file"
+        echo "You may need to download the playlist first."
+        download_playlist
+    fi
+    
+    echo "Playing playlist: $playlist_name (shuffled)"
+    
+    mpv --playlist="$playlist_file" --shuffle --no-video --pause --log-file=$MIKU_DIR/log.txt
+}
+
+show_usage() {
+    echo "Usage: $0 [command] [playlist_name]"
+    echo ""
+    echo "Commands:"
+    echo "  download [playlist_name]   Download a playlist"
+    echo "  play [playlist_name]       Play a playlist (always shuffled)"
+    echo "  list                       List all available playlists"
+    echo ""
+    echo "Examples:"
+    echo "  $0 download vocaloid       Download the 'vocaloid' playlist"
+    echo "  $0 play vocaloid           Play the 'vocaloid' playlist (shuffled)"
+    echo ""
+}
+
+if [ $# -lt 1 ]; then
+    show_usage
+    exit 1
+fi
+
+command="$1"
+shift
+
+case "$command" in
+    download)
+        if [ $# -lt 1 ]; then
+            echo "Error: Please specify a playlist name to download."
+            show_usage
+            exit 1
+        fi
+        playlist_name="$1"
+        download_playlist "$playlist_name"
+        ;;
+        
+    play)
+        if [ $# -lt 1 ]; then
+            echo "Error: Please specify a playlist name to play."
+            show_usage
+            exit 1
+        fi
+        playlist_name="$1"
+        play_playlist "$playlist_name"
+        ;;
+        
+    list)
+        list_playlists
+        ;;
+        
+    *)
+        echo "Error: Unknown command '$command'"
+        show_usage
+        exit 1
+        ;;
+esac
+
+exit 0
