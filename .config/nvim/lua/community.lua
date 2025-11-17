@@ -11,6 +11,7 @@ return {
   { import = "astrocommunity.media.presence-nvim" },
   { import = "astrocommunity.media.vim-wakatime" },
   { import = "astrocommunity.pack.astro" },
+  { import = "astrocommunity.pack.cpp" },
   { import = "astrocommunity.pack.fish" },
   { import = "astrocommunity.pack.json" },
   { import = "astrocommunity.pack.lua" },
