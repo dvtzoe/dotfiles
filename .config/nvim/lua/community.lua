@@ -13,13 +13,16 @@ return {
   { import = "astrocommunity.pack.astro" },
   { import = "astrocommunity.pack.cpp" },
   { import = "astrocommunity.pack.fish" },
+  { import = "astrocommunity.pack.godot" },
   { import = "astrocommunity.pack.json" },
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.markdown" },
   { import = "astrocommunity.pack.prisma" },
   { import = "astrocommunity.pack.python-ruff" },
+  { import = "astrocommunity.pack.svelte" },
   { import = "astrocommunity.pack.tailwindcss" },
   { import = "astrocommunity.pack.typescript-all-in-one" },
+  { import = "astrocommunity.recipes.vscode" },
 
   -- import/override with your plugins folder
 }
