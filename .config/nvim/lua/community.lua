@@ -19,9 +19,11 @@ return {
   { import = "astrocommunity.pack.markdown" },
   { import = "astrocommunity.pack.prisma" },
   { import = "astrocommunity.pack.python-ruff" },
+  { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.pack.svelte" },
   { import = "astrocommunity.pack.tailwindcss" },
   { import = "astrocommunity.pack.typescript-all-in-one" },
+  { import = "astrocommunity.pack.xml" },
   { import = "astrocommunity.recipes.vscode" },
 
   -- import/override with your plugins folder
