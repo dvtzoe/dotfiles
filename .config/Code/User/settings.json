@@ -31,5 +31,9 @@
       "id": "69430D01-3CCB-4A0B-85F2-8CEAD888FD3E",
       "isDefault": true
     }
-  ]
+  ],
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "security.workspace.trust.untrustedFiles": "open"
 }
