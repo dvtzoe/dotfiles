@@ -3,12 +3,12 @@
   "workbench.iconTheme": "material-icon-theme",
   "workbench.productIconTheme": "material-product-icons",
   "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
+    "asvetliakov.vscode-neovim": 1,
   },
   "github.copilot.nextEditSuggestions.enabled": true,
   "gitlens.ai.model": "vscode",
   "gitlens.ai.vscode.model": "copilot:gpt-4.1",
-  "editor.fontFamily": "'JetbrainsMono Nerd Font', 'monospace', monospace",
+  "editor.fontFamily": "'JetbrainsMono Nerd Font', 'Noto Sans CJK JP', 'Noto Sans Thai', 'monospace', monospace",
   "chat.mcp.gallery.enabled": true,
   "explorer.confirmDelete": false,
   "keyboard.dispatch": "keyCode",
@@ -16,11 +16,11 @@
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.codeActionsOnSave": {
-      "source.fixAll.ruff": "always"
-    }
+      "source.fixAll.ruff": "always",
+    },
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "editor.inlayHints.enabled": "offUnlessPressed",
   "material-code.primaryColor": "#61394A",
@@ -29,11 +29,35 @@
     {
       "name": "Servers",
       "id": "69430D01-3CCB-4A0B-85F2-8CEAD888FD3E",
-      "isDefault": true
-    }
+      "isDefault": true,
+    },
   ],
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
-  "security.workspace.trust.untrustedFiles": "open"
+  "security.workspace.trust.untrustedFiles": "open",
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "python.defaultInterpreterPath": "/sbin/python3.14",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false,
+    "cpp": false,
+  },
+  "terminal.integrated.enableMultiLinePasteWarning": "never",
+  "[dockercompose]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
 }
